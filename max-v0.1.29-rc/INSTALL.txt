@@ -1,0 +1,129 @@
++---------------------------------------------------------------------------+
+| Max Media Manager v0.1                                                    |
+| =================                                                         |
+|                                                                           |
+| Copyright (c) 2003-2005 m3 Media Services Limited                         |
+| For contact details, see: http://www.m3.net/                              |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+
+
+
+Requirements
+============
+
+Any operating system/web server that supports MySQL and PHP
+PHP (version 4.3.6 or later, including PHP5)
+MySQL (version 4.0.12 or later)
+
+
+
+Installation
+============
+
+1)  Using the MySQL client, create a new database for Max (eg. "CREATE DATABASE max;").
+
+2)  Create a new MySQL user with access to the database you created above, for Max to
+    use to access the database. Consult the MySQL documentation on how to do this.
+
+3)  Configure your web server to answer requests for your domain name, for example,
+    "http://example.com/". Your web server documentation will tell you how to do this.
+
+4)  Download the Max Media Manager file from http://max.awarez.net/.
+
+5)  Extract the Max zip file. 
+
+6)  Put the files into an appropriate directory in your web server root. For example,
+    if your web server's root is "/var/www/html/" you may choose to put the Max files
+    in "/var/www/html/MaxMediaManager". In this way, you will be able to access the
+    Max interface by using a web browser to access "http://example.com/MaxMediaManager/".
+
+7)  If you are running Max on a unix-like operating system (not Windows) you may need
+    to give the web server write access to the config.inc.php file. This file can be
+    found in the top Max directory. Set write access with the command (as root):
+   
+      chmod a+w config.inc.php
+     
+8)  If you are running Max on Windows, right click on the config.inc.php file in 
+    Windows Explorer, select "Properties" and ensure that the file is NOT marked as
+    "Read-only".
+
+9)  Using your web browser, go to "http://example.com/MaxMediaManager/" (using your
+    domain name and installation directory) and you will be guided through an automated
+    install.
+   
+10)  After the installation is complete, you will be asked to log in using the admin
+    username and password you set up during the installation. You will then be taken
+    to the Max "Settings" screen. Once you have made any changes you want, please
+    remember to lock the config.inc.php file, so that changes cannot be accidentally
+    or maliciously made. If you are running a unix-like operating system, remove
+    write access with the command (as root):
+    
+      chmod a-w config.inc.php
+      
+    If you are running Max on Windows, right click on the config.inc.php file in 
+    Windows Explorer, select "Properties" and ensure that the file IS marked as
+    "Read-only".
+
+11) Enjoy!
+
+
+
+Maintenance
+===========
+
+With Max Media Manager it is necessary to set up a cronjob on the webserver
+to run the maintenance scripts.
+
+ -  Firstly, move the maintenance folder out of the current directory layout,
+    so that it is not possible for someone to run the maintenance scripts
+    via a web browser (this could bring your adserver to a screaming halt).
+    The directory you move the maintenance folder to will be referred to as
+    <max_maintenance_dir> for the remainder of this file.
+    
+ -  Then, edit the maintenance config file found at 
+    <max_maintenance_dir>/default.conf.ini. You should normally only need to
+    edit the database details (including the database table names, if necessary),
+    unless you want to do something fancy.
+    
+ -  Under Unix-like systems, create a cronjob similar to the following (you may
+    need to change the location of php from "/usr/local/bin/php" to match your
+    setup) which will run the maintenance scripts once an hour, every hour, on
+    the hour:
+    
+    0 * * * * /usr/local/bin/php -q <max_maintenance_dir>/maintenance.php
+    
+ -  Under Windows systems, schedule the maintenance script using "schtasks" 
+    by running a command similar to the following at the Command Prompt (you
+    may need to change the location of php from "c:\php\php-win.exe" to match
+    your setup) which will run the maintenance scripts once an hour, every
+    hour, on the hour:
+    
+    schtasks /create /sc hourly /st 00:00:00 /tn "Max Maintenance" 
+        /tr "c:\php\php-win.exe \"<max_maintenance_dir>\maintenance.php\""
+    
+    Note: The above command needs to be on one line.
+        
+    Note: You may need to re-install PHP with the CLI option if the php-win.exe
+    file does not exist.
+    
+    Note: More information on setting up scheduled tasks in Windows can be
+    found at:
+    http://www.microsoft.com/resources/documentation/windows/xp/all/proddocs/en-us/schtasks.mspx
+    
+
+
+For more info please see the Max site: http://max.awarez.net/.

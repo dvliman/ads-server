@@ -1,0 +1,5 @@
+register("Bannerfish TAP builder",
+         "bannerfish.tap",
+         description="A banner ad server.",
+         type="tap",
+	 tapname="bannerfish")

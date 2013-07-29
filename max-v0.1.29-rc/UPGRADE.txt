@@ -1,0 +1,105 @@
+Upgrading from Max or phpAdsNew
+===============================
+
+This upgrade document is a first version - there may very well be issues with the process
+described below. Please, make sure that you backup your Max or phpAdsNew data, and ensure
+that you can restore from the backup if something goes wrong.  If something does go wrong,
+please contact us on the mailing list (http://max.awarez.net/) and we'll do our best to
+help you out!
+
+Please note that while you can upgrade from ANY version of Max, you can only upgrade from
+phpAdsNew 2.0 or greater. If you are running a version of phpAdsNew earlier than 2.0, please
+download phpAdsNew 2.0, and follow the instructions included in phpAdsNew to upgrade your
+installation. Once done, you can then upgrade from phpAdsNew 2.0 to Max. (Please also note
+that you cannot upgrade from phpPgAds.)
+
+
+To upgrade:
+
+1)  BACKUP YOUR DATA!
+
+2)  If you are upgrading from Max, disable your maintenance script cronjob/schtask.
+
+3)  Shut down your webserver.
+
+4)  Move your old Max or phpAdsNew installation folder to a backup location. (For example,
+    if Max was installed in /var/www/html/max, move that folder to something like
+    /var/www/html/max-backup.)
+    
+5)  If you are upgrading from Max, also move your maintenance directory to a backup
+    location. (For example, if you Max maintenance directory was /usr/local/maintenance,
+    move that folder to something like /usr/local/maintenance-backup.)
+
+6)  Unzip the new version of Max, put the files in the same location that your old Max or 
+    phpAdsNew installation used to be. (For example, if Max used to be installed in
+    /var/www/html/max before you moved it in Step 2, then install the new version of Max
+    in the same location, /var/www/html/max.)
+    
+7)  Move the maintenance directory in the new version of Max out of the web server
+    directory. If you are upgrading from Max, then put it in the same location as the old
+    maintenance directory. If you are upgrading from phpAdsNew, you will not have an old
+    maintenance directory - please consult the "Maintenance" section in the INSTALL.txt
+    file for details on how to set up maintenance scripts in Max.
+    
+8)  If you are running Max on a unix-like operating system (not Windows) you may need to
+    give the web server write access to the config.inc.php file. This file can be found
+    in the top Max directory. Set write access with the command (as root):
+   
+      chmod a+w config.inc.php
+     
+9)  If you are running Max on Windows, right click on the config.inc.php file in Windows
+    Explorer, select "Properties" and ensure that the file is not marked as "Read-only".
+    
+10) Restart your web server.    
+
+11) Using your web browser, go to the web page that you normally use to manage Max or
+    phpAdsNew. You should be presented with the Max automated install program. Use the 
+    program to "install" Max, and the process will take care of upgrading your existing
+    installation.
+    
+    /**********************************************************************************/
+    IMPORTANT: When specifying you database connection, you must enter the database
+    hostname, port number, username, password, and database name of your EXISTING
+    Max or phpAdsNew installation. You must ALSO specify the SAME table name prefix
+    and table type as you specified when you installed Max or phpAdsNew.
+    
+    NOTE: The default table type for phpAdsNew is MyISAM, while Max has a default table
+    type of InnoDB. Max is able to run using MyISAM tables, so if you are upgrading from
+    phpAdsNew, please select your original table type. However, if you want to obtain
+    the speed benefits of using InnoDB tables, please read the information at:
+      http://dev.mysql.com/doc/mysql/en/Converting_tables_to_InnoDB.html
+    Don't forget to change your config.inc.php file's $phpAds_config['table_type']
+    to "INNODB" afterwards!
+    
+    NOTE: Depending on the version of Max or phpAdsNew you are upgrading from, the 
+    process may take a while. Please be patient!
+    /**********************************************************************************/
+    
+12) Once the automated install program has finished, your installation will now be upgraded.
+
+13) After the upgrade is complete, you will be asked to log in using you existing admin
+    username and password. You will then be taken to the Max "Settings" screen. Once you
+    have made any changes you want, please remember to lock the config.inc.php file, so
+    that changes cannot be accidentally or maliciously made. If you are running a unix-like
+    operating system, remove write access with the command (as root):
+    
+      chmod a-w config.inc.php
+      
+    If you are running Max on Windows, right click on the config.inc.php file in 
+    Windows Explorer, select "Properties" and ensure that the file IS marked as
+    "Read-only".
+    
+14) If your old Max or phpAdsNew installation used banners of "Local banner (Webserver)"
+    type, these banners will have been stored in your old installation's images directory.
+    You will need to copy these banners from the backup copy of your installation (that
+    you made in step 4) into the images directory of you new Max installation.
+
+15) If you are upgrading from Max, you will need to re-edit your maintenance config file
+    found in your Max maintenance directory, before you re-enable your maintenance script
+    cronjob/schtask.
+    
+16) If you are upgrading from phpAdsNew, please consult the "Maintenance" section in the
+    INSTALL.txt file for details on how to set up maintenance scripts in Max, if you have
+    not already done so.
+    
+17) Enjoy!
